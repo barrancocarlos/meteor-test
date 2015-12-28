@@ -1,0 +1,179 @@
+<head>
+  <title>Coursera Test App</title>
+</head>
+
+<body>
+	
+
+
+</body>
+
+<template name="AppTemp">
+
+	{{> yield "navbar"}}
+	{{> yield "main"}}
+</template>
+
+<template name="single-w">
+
+	<div class="container">
+		
+	<ul>
+	{{>website_item}}
+	</ul>
+	<a href="/" class=""><p>Go Back</p></a>
+	<div class="comment-section">
+    {{> commentsBox id=_id}}
+	</div>
+
+	</div>
+</template>
+
+<template name="navbar">
+	   <nav class="navbar navbar-custom" role="navigation">
+        <div class="container navigation max-w">
+		
+            <div class="navbar-header page-scroll">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-main-collapse">
+                    <i class="fa fa-bars"></i>
+                </button>
+                <a class="navbar-brand" href="index.html">
+                    WebList
+                </a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse navbar-right navbar-main-collapse">			 
+			  <ul class="nav navbar-nav">
+			  	
+				<li>{{> loginButtons}}</li>			   
+
+			  </ul>		
+            </div>
+            <!-- /.navbar-collapse -->
+
+        </div>
+        <!-- /.container -->
+    </nav>
+</template>
+
+<template name="main-content">
+	<div class="main-img">
+
+		<div class="intro">
+
+			Welcome, login and add a website. You can rate and comment
+		</div>
+
+	</div>
+
+
+	<div class="container max-w">
+			{{> search}}
+			{{>website_form}}
+			{{>website_list}}
+
+	</div>
+		<footer>
+	
+
+		<div class="sub-footer">
+		<div class="container">
+			<div class="row">
+				<div class="col-sm-6 col-md-6 col-lg-6">
+					
+				
+					<div class="wow fadeInLeft" data-wow-delay="0.1s">
+					<div class="text-left">
+					<p>Coursera 2015. Introduction to Meteor</p>
+					</div>
+					</div>
+				</div>
+				<div class="col-sm-6 col-md-6 col-lg-6">
+					
+				</div>
+			</div>	
+		</div>
+		</div>
+	</footer>
+</template>
+
+<template name="search">
+<div><input id="search" class="c-search" placeholder="Search Website Title"></div>
+</template>
+
+
+
+<template name="website_form">
+	
+	{{#if currentUser}}<p class="add-title">Add a Website<a class="btn btn-add js-toggle-website-form" href="#">
+  		<span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+	</a></p>{{/if}}
+	
+	<div id="website_form" class="hidden_div">
+		<form class="js-save-website-form">
+		  <div class="form-group">
+		    <label for="url">Site address</label>
+		    <input type="text" class="form-control" id="url" placeholder="http://www.mysite.com">
+		  </div>
+		  <div class="form-group">
+		    <label for="title">Title</label>
+		    <input type="text" class="form-control" id="title" placeholder="Mysite">
+		  </div>
+		    <div class="form-group">
+		    <label for="description">Description</label>
+		    <input type="text" class="form-control" id="description" placeholder="I found this site really useful for ...">
+		  </div>
+	
+
+		  <button type="submit" class="btn btn-vote">Submit</button>
+		</form>
+	</div>
+	
+</template>
+
+<!-- template that displays several website items -->
+<template name="website_list">
+	<ol>
+	{{#each websites}}
+	{{>website_item}}
+	<h5><a href="/single/{{_id}}"><p  class="com-link">See Comments</p></a></h5>
+	{{/each}}
+	</ol>
+	
+</template>
+
+<!-- template that displays individual website entries -->
+<template name="website_item">
+<li id="{{_id}}">
+	<h3><a href="{{url}}">{{title}}</a></h3>
+	<p>
+		{{description}}
+	</p>
+	
+	<a href="#" class="js-user-filter"><p>Show websites by: {{getUser createdBy}}</p></a>
+
+	{{#if filtering_images}}
+    	<p>Showing websites filtered by user. <a href="#" class="js-unset-image-filter">Show all websites</a></p>
+   {{/if}}
+
+
+	<p class="date-title">{{createdOn}}</p>
+
+	<h6>
+		Rating: {{rating}}
+	</h6>
+
+
+	{{#if currentUser}}
+	<a href="#" class="btn btn-vote js-upvote">
+		<span class="glyphicon glyphicon-arrow-up" aria-hidden="true"></span>
+	</a>
+	<a href="#" class="btn btn-vote js-downvote">
+		<span class="glyphicon glyphicon-arrow-down" aria-hidden="true"></span>
+	</a>
+	<button class="js-rem-button btn">Remove Website</button>
+	 {{/if}}
+	<!-- you will be putting your up and down vote buttons in here! -->
+</li>
+</template>
